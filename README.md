@@ -1,4 +1,4 @@
-##Catalog App
+Catalog App
 ------------
 ___
 
