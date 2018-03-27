@@ -1,0 +1,20 @@
+
+		
+
+<nav class="navbar navbar-default bg-light navbar-fixed-top">
+<div class="navbar-header">
+<a class="navbar-brand" href="{{url_for('showcatalog')}}">Home</a>
+</div>
+<div class="navbar-right">
+{% if 'username' not in session %}	
+<ul class="nav navbar-nav">
+
+<li><a href="{{url_for('showLogin')}}">Click Here to Login</a></li>
+{% else %}	
+<li><a href="{{url_for('disconnect')}}">Logout</a></li>
+</ul>
+</div>
+{% endif %}
+</nav>
+
+  

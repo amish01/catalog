@@ -1,0 +1,26 @@
+
+			
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+			<h1>Add An Item to this category</h1>
+		
+	
+	
+			<form action="{{url_for("newCategoryItem", category_name = category_name)}}" method = "post">
+				
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50"  name="name" placeholder="Name of the item">
+					<p></p>
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the item"></textarea><br>
+
+					<button type="submit" >Create</button>
+					<P><a href="{{url_for("showCategoryItems", category_name = category_name)}}">Cancel</a></P>
+					
+					
+				</div>
+			</form>
+		</div>
+{% endblock %}

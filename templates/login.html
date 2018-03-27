@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>login</title>
+	 <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+</head>
+<body>
+
+
+          {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li><h1> <strong> {{ message }} </strong></h1> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+	<!-- GOOGLE PLUS SIGN IN BUTTON-->
+
+          
+          <div id="signinButton">
+          <span class="g-signin"
+            data-scope="openid email"
+            data-clientid="236801105566-264nscu506md6gniviabb41vaa1sqq8j.apps.googleusercontent.com"
+            data-redirecturi="postmessage"
+            data-accesstype="offline"
+            data-cookiepolicy="single_host_origin"
+            data-callback="signInCallback"
+            data-approvalprompt="force">
+          </span>
+        </div>
+
+        <div id="result"></div>
+
+        <!-- <div id = "fb-button" class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" scope="public_profile,email" onlogin="sendTokenToServer();"> </div>-->
+
+
+       <button>
+         
+
+          <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+
+</fb:login-button>
+
+
+        </button>
+       <!-- <form>
+          <input type="button" onclick="logIn()" value="Login with Facebook">
+        </form>-->
+
+
+
+
+<script>
+
+/*var person = {userID: "", accessToken: "", name: "", email: ""}  
+function logIn(){
+  FB.login(function(response){
+    console.log(response)
+    if (response.status == "connected"){
+      person.accessToken = response.authResponse.accessToken;
+      person.accessToken = response.authResponse.userID;
+      FB.api("/me?fields=id, name, picture, email", function(userData){
+         console.log(userData)
+         person.name = userData.name;
+         person.email = userData.email;
+         person.picture = userData.picture.data.url;
+      })
+    }
+  }, {scope: "public_profile, email"})
+}**/
+
+function signInCallback(authResult) {
+  if (authResult['code']) {
+    // Hide the sign-in button now that the user is authorized
+    $('#signinButton').attr('style', 'display: none');
+    $('#fb-button').attr('style', 'display: none');
+
+    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+    $.ajax({
+      type: 'POST',
+      url: '/gconnect?state={{STATE}}',
+      processData: false,
+      data: authResult['code'],
+      contentType: 'application/octet-stream; charset=utf-8',
+      success: function(result) {
+        // Handle or verify the server response if necessary.
+        if (result) {
+          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+         setTimeout(function() {
+          window.location.href = "/catalog";
+         }, 4000);
+          
+      } else if (authResult['error']) {
+    console.log('There was an error: ' + authResult['error']);
+  } else {
+        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+         }
+      }
+      
+  }); } }
+
+
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1961156224139363',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.12'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function sendTokenToServer() {
+
+    var access_token = FB.getAuthResponse()['accessToken'];
+
+    //$('#fb-button').attr('style', 'display: none');
+    //$('#signinButton').attr('style', 'display: none');
+    console.log(access_token)
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log(response)
+      console.log('Successful login for: ' + response.name);
+
+     $.ajax({
+      type: 'POST',
+      url: '/fbconnect?state={{STATE}}',
+      processData: false,
+      data: access_token,
+      contentType: 'application/octet-stream; charset=utf-8',
+      success: function(result) {
+        // Handle or verify the server response if necessary.
+        console.log(result)
+        if (result) {
+          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+         setTimeout(function() {
+          window.location.href = "/catalog";
+         }, 4000);
+          
+      } else {
+        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+         }
+      }
+      
+  });
+    });
+  }
+
+
+</script>
+
+
+
+
+  
+
+
+<!-- Facebook signIn -->
+
+<script>
+  
+ /* (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));*/
+
+
+//<div id="fb-root"></div>
+
+</script>
+
+<!--<button>
+         
+
+          <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+
+</fb:login-button>
+
+
+        </button>-->
+        
+        	
+        
+
+
+
+<!--<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>-->       
+<!--END FACEBOOK SIGN IN -->
+
+</body>
+</html>

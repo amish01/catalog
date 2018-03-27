@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<h1>{{item.name}}</h1>
+<p>{{item.description}}</p>
+
+<a href = "{{url_for("itemDescription", category_id = item.category_id, item_id = item.id)}}" > Edit <a/><br/>
+{% endblock %}

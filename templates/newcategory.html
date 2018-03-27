@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<html>
+   <body>
+     <h1>New Cagegory</h1>
+     <form action="{{url_for("newCategory")}}" method="post">
+       <p>Name:</p>
+       <input type = "text" size = "30" name = "name">
+       <input type = "submit" value="Create">
+
+     </form>
+     <P><a href="{{url_for("showcatalog")}}">Cancel</a></P>
+   </body>
+ </html>
+ {% endblock %}

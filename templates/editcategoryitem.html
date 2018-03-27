@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<h1>Edit This Item </h1>
+		
+	
+	
+			<form action="#" method = "post">
+				
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50"  name="name" placeholder="{{editedCategoryItem.name}}">
+					<p></p>
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="{{editedCategoryItem.description}}"></textarea>
+
+					<p></p>
+					<input type = "submit" value = "Edit">
+					<P><a href="{{url_for("showCategoryItems", category_name = category_name)}}">Cancel</a></P>
+				</div>
+			</form>
+		</div>
+{% endblock %}		

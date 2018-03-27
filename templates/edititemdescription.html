@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+  <h1>Edit description for {{item.name}} </h1>
+  <form action="{{url_for("itemDescription", category_id= item.category_id, item_id = item.id)}}" method="post">
+
+  <label for="description">Description:</label>
+	<textarea  maxlength="250" rows="3" name="description" placeholder="{{item.description}}"></textarea>	
+  <input type = "submit" value = "Edit">
+   <P><a href="{{url_for("showcatalog")}}">Cancel</a></P>
+</form>
+{% endblock %}

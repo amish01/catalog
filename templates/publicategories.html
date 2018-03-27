@@ -1,0 +1,43 @@
+
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html"%}
+
+
+<div class = "row">
+
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+	
+
+	{% for category in  categories%}	
+    
+	<div class="card card-inverse card-primary">	
+	<div class="card-block">
+
+	<h4 class="card-title"><a href="{{url_for("showCategoryItems", category_name = category.name)}}">{{ category.name}}</a></h4>
+	</div>
+	
+</div>
+
+
+{% endfor %}
+
+ {% endblock %}
+	
+
+
+
+
+
